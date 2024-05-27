@@ -1,4 +1,4 @@
 class Subreddit < ApplicationRecord
     extend FriendlyId
-    friendly_id :title, use: :slugged
+    friendly_id :body, use: :slugged
 end
