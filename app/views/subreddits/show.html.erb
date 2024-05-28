@@ -2,9 +2,14 @@
 
 <%= render @subreddit %>
 
-<div>
-  <%= link_to "Edit this subreddit", edit_subreddit_path(@subreddit) %> |
-  <%= link_to "Back to subreddits", subreddits_path %>
+<% if current_user && current_user.id == @subreddit.user_id %>
+  <div>
+    <%= link_to "Edit this subreddit", edit_subreddit_path(@subreddit) %> 
+    <%= button_to "Destroy this subreddit", @subreddit, method: :delete %>
 
-  <%= button_to "Destroy this subreddit", @subreddit, method: :delete %>
-</div>
+  </div>
+
+<% end %>
+
+<%= link_to "Back to subreddits", subreddits_path %>
+
