@@ -2,8 +2,12 @@
 
 <%= render @post %>
 
-<div>
-  <%= link_to "Edit this post", edit_post_path(@post) %> |
+<% if current_user && current_user.id == @post.user_id %>
 
-  <%= button_to "Destroy this post", @post, method: :delete %>
-</div>
+  <div>
+    <%= link_to "Edit this post", edit_post_path(@post) %> |
+
+    <%= button_to "Destroy this post", @post, method: :delete %>
+  </div>
+<% end %>
+

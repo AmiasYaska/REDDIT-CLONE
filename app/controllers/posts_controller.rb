@@ -37,6 +37,8 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    if current_user && current_user.id == @post.user_id
+
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to post_url(@post), notice: "Post was successfully updated." }
@@ -46,16 +48,20 @@ class PostsController < ApplicationController
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+    end
   end
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
+    if current_user && current_user.id == @post.user_id
+
     @post.destroy!
 
     respond_to do |format|
       format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
   end
 
   private
