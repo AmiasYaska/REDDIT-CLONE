@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_subreddit, only: %i[ new edit create update ]
 
   # GET /posts or /posts.json
   def index
@@ -13,7 +14,6 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
-    @subreddit = Subreddit.friendly.find(params[:subreddit_id])
   end
 
   # GET /posts/1/edit
@@ -38,36 +38,38 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     if current_user && current_user.id == @post.user_id
-
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to post_url(@post), notice: "Post was successfully updated." }
-        format.json { render :show, status: :ok, location: @post }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @post.update(post_params)
+          format.html { redirect_to post_url(@post), notice: "Post was successfully updated." }
+          format.json { render :show, status: :ok, location: @post }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @post.errors, status: :unprocessable_entity }
+        end
       end
-    end
     end
   end
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
     if current_user && current_user.id == @post.user_id
+      @post.destroy!
 
-    @post.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
-  end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.friendly.find(params[:id])
+    end
+
+    def set_subreddit
+      @subreddit = @post.subreddit if @post
     end
 
     # Only allow a list of trusted parameters through.
