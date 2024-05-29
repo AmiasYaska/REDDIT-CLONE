@@ -22,11 +22,11 @@
   </div>
 
   <div>
-    <%= form.number_field :user_id, value: current_user.id %>
+    <%= form.number_field :user_id, value: current_user.id, type: "hidden" %>
   </div>
 
   <div>
-    <%= form.number_field :subreddit_id, value: @subreddit.id %>
+    <%= form.number_field :subreddit_id, value: @subreddit.id, type: "hidden" %>
   </div>
 
   <div>
