@@ -21,7 +21,7 @@ class PostsController < ApplicationController
   def upvote
     @post = Post.find_by(slug: params[:id])
     @vote = current_user.votes.find_or_initialize_by(post: @post)
-    @vote.value = 1
+    @vote.value = +1
     @vote.save
     redirect_to @post
   end
