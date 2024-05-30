@@ -1,17 +1,17 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @post %>
+
 <%= form_with(model: [@post, @vote], url: upvote_post_path, method: :post, id: "up-vote-form") do |form|%>
-  <%= form.number_field :value, value: 1%>
+  <%= form.number_field :value, value: 1, type: "hidden"%>
   <%= form.submit "upvote"%>
 <% end %>
 
 <%= form_with(model: [@post, @vote], url: downvote_post_path, method: :post, id: "down-vote-form") do |form|%>
-  <%= form.number_field :value, value: -1%>
+  <%= form.number_field :value, value: -1, type: "hidden"%>
   <%= form.submit "downvote"%>
 <% end %>
 
-<%= @post.total_score%>
 
 
 <% if current_user && current_user.id == @post.user_id %>
