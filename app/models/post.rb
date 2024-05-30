@@ -6,4 +6,10 @@ class Post < ApplicationRecord
     belongs_to :subreddit
 
     has_one_attached :image
+
+
+    def total_score
+        votes.sum(:value)
+
+    end
 end
