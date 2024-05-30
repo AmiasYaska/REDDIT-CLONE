@@ -12,7 +12,11 @@
   <%= form.submit "downvote"%>
 <% end %>
 
-
+<%= form_with(model: [@post, @comment], url: create_comment_post_path, method: :post) do |form|%>
+  <%= form.text_field :content%>
+  <%= form.text_field :user_id, value: current_user.id%>
+  <%= form.text_field :post_id, value: @post_id%>
+<% end %>
 
 <% if current_user && current_user.id == @post.user_id %>
 

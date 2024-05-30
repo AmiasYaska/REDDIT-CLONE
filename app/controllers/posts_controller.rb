@@ -8,6 +8,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1 or /posts/1.json
   def show
+    @comment = Comment.new
     @vote = Vote.new
   end
 
@@ -17,6 +18,11 @@ class PostsController < ApplicationController
     @subreddit = Subreddit.friendly.find(params[:subreddit_id])
   end
 
+
+  def create_comment
+   
+
+  end
 
   def upvote
     @post = Post.find_by(slug: params[:id])
