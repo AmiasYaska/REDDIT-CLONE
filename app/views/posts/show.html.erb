@@ -1,12 +1,12 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @post %>
-<%= form_with(model: [@post @vote], url: upvote_post_path, method: :post, id: "up-vote-form") do |form|%>
+<%= form_with(model: [@post, @vote], url: upvote_post_path, method: :post, id: "up-vote-form") do |form|%>
   <%= form.number_field :value, value: 1%>
   <%= form.submit "upvote"%>
 <% end %>
 
-<%= form_with(model: [@post @vote], url: downvote_post_path, method: :post, id: "down-vote-form") do |form|%>
+<%= form_with(model: [@post, @vote], url: downvote_post_path, method: :post, id: "down-vote-form") do |form|%>
   <%= form.number_field :value, value: -1%>
   <%= form.submit "downvote"%>
 <% end %>
