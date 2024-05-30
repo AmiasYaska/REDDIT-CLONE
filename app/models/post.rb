@@ -6,6 +6,8 @@ class Post < ApplicationRecord
     belongs_to :subreddit
 
     has_one_attached :image
+    has_many :votes
+
 
 
     def total_score
