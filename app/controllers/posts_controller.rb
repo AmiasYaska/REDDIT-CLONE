@@ -16,6 +16,24 @@ class PostsController < ApplicationController
     @subreddit = Subreddit.friendly.find(params[:subreddit_id])
   end
 
+
+  def upvote
+    @post = Post.find_by(slug: params[:id])
+    @vote = current_user.votes.find_or_initialize_by(post: @post)
+    @vote.value = 1
+    @vote.save
+    redirect_to @post
+  end
+
+
+  def downvote
+    @post = Post.find_by(slug: params[:id])
+    @vote = current_user.votes.find_or_initialize_by(post: @post)
+    @vote.value = -1
+    @vote.save
+    redirect_to @post
+  end
+
   # GET /posts/1/edit
   def edit
   end
