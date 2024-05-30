@@ -9,6 +9,7 @@ class PostsController < ApplicationController
   # GET /posts/1 or /posts/1.json
   def show
     @comment = Comment.new
+    @comments = @post.comments
     @vote = Vote.new
   end
 
@@ -20,7 +21,20 @@ class PostsController < ApplicationController
 
 
   def create_comment
-   
+    @post = Post.friendly.find(params[:id])
+    @comment = @post.comments.build(comment_params)
+    @comment.user_id = current_user.id
+
+    if @comment.save 
+      redirect_to @post, notice: "Comment was successfully created"
+
+    else 
+      redirect_to @post, notice: "Failed to create comment"
+    end
+  end
+
+  def comment_params
+    params.require(:comment).permit(:content)
 
   end
 

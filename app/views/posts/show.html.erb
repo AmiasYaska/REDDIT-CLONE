@@ -2,20 +2,29 @@
 
 <%= render @post %>
 
-<%= form_with(model: [@post, @vote], url: upvote_post_path, method: :post, id: "up-vote-form") do |form|%>
-  <%= form.number_field :value, value: 1, type: "hidden"%>
-  <%= form.submit "upvote"%>
-<% end %>
+<% if current_user%>
+  <%= form_with(model: [@post, @vote], url: upvote_post_path, method: :post, id: "up-vote-form") do |form|%>
+    <%= form.number_field :value, value: 1, type: "hidden"%>
+    <%= form.submit "upvote"%>
+  <% end %>
 
-<%= form_with(model: [@post, @vote], url: downvote_post_path, method: :post, id: "down-vote-form") do |form|%>
-  <%= form.number_field :value, value: -1, type: "hidden"%>
-  <%= form.submit "downvote"%>
-<% end %>
+  <%= form_with(model: [@post, @vote], url: downvote_post_path, method: :post, id: "down-vote-form") do |form|%>
+    <%= form.number_field :value, value: -1, type: "hidden"%>
+    <%= form.submit "downvote"%>
+  <% end %>
 
-<%= form_with(model: [@post, @comment], url: create_comment_post_path, method: :post) do |form|%>
-  <%= form.text_field :content%>
-  <%= form.text_field :user_id, value: current_user.id%>
-  <%= form.text_field :post_id, value: @post_id%>
+  <%= form_with(model: [@post, @comment], url: create_comment_post_path, method: :post) do |form|%>
+  <h2>Add Comment</h2>
+    <%= form.text_field :content%>
+    <%= form.text_field :user_id, value: current_user.id, type: "hidden"%>
+    <%= form.text_field :post_id, value: @post.id, type: "hidden"%>
+    <%= form.submit%>
+  <% end %>
+
+  <% @comments.each do |comment|%>
+    <%= comment.content %>
+  <% end %>
+  
 <% end %>
 
 <% if current_user && current_user.id == @post.user_id %>
