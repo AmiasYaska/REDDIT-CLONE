@@ -7,10 +7,12 @@ class SubredditsController < ApplicationController
     @subreddits = Subreddit.all
   end
 
+  
   # GET /subreddits/1 or /subreddits/1.json
   def show
-
+    @membership = Membership.new
     @posts = @subreddit.posts
+
   end
 
   # GET /subreddits/new

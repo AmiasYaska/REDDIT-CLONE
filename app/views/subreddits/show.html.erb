@@ -2,6 +2,17 @@
 
 <%= render @subreddit %>
 
+<% if current_user && current_user.memberships.exists?(subreddit_id: @subreddit.id)%>
+  <p>You are a member</p>
+  <%= form_with(model: current_user.memberships.find_by(subreddit_id: @subreddit.id), method: :delete, local: true, style: "margin: 0;") do |form|%>
+    <%= form.submit "Leave", class: "btn btn-danger" %>
+  <% end %>
+<% else %>
+<%= render partial: 'memberships/form', locals: {membership: @membership} %>
+
+<% end %>
+
+
 <% if current_user && current_user.id == @subreddit.user_id %>
   <div>
     <%= link_to "Edit this subreddit", edit_subreddit_path(@subreddit) %> 

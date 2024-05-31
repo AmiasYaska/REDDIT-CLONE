@@ -4,4 +4,6 @@ class Subreddit < ApplicationRecord
 
     belongs_to :user
     has_many :posts
+    has_many :memberships
+
 end

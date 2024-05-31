@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :memberships
   resources :posts do
     member do 
       post "upvote"
@@ -8,7 +9,16 @@ Rails.application.routes.draw do
   end
   
   devise_for :users
-  resources :subreddits
+  resources :subreddits do 
+    collection do 
+      post :search
+    end
+    
+    member do
+      post "join"
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
