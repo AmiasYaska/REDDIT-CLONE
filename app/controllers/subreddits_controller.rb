@@ -7,6 +7,11 @@ class SubredditsController < ApplicationController
     @subreddits = Subreddit.all
   end
 
+  def my_subreddits
+    if current_user
+      @user_memberships = current_user.memberships
+    end
+  end
   
   # GET /subreddits/1 or /subreddits/1.json
   def show
