@@ -7,12 +7,26 @@ class SubredditsController < ApplicationController
     @subreddits = Subreddit.all
   end
 
+  def search
+    if params[:title_search].present?
+      @subreddits = Subreddit.where("title ILIKE ?", "%#{params[:title_search]}%")
+    else
+      @subreddits = [] # Or any other behavior you want when the search term is empty
+    end
+    
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update("search_results", partial: "subreddits/search_results", locals: { subreddits: @subreddits })
+      end 
+    end
+  end
+  
   def my_subreddits
     if current_user
       @user_memberships = current_user.memberships
     end
   end
-  
+
   # GET /subreddits/1 or /subreddits/1.json
   def show
     @membership = Membership.new
